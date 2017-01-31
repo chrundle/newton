@@ -23,7 +23,7 @@ double g (double f1 (double y), double f2 (double y), double x) {
 int main () {
     int i, Numstep;
     double pi2, x, xnew, x_0, INCR, TOL;
-    FILE *pFile_x, *pFile_steps;
+    FILE *pFile_x, *pFile_steps, *pFile_fail;
 
     Numstep = 100;
     TOL = 1e-8;
@@ -32,6 +32,7 @@ int main () {
     x_0 = pi2 - .1;
     pFile_x = fopen("Xinitial.txt", "w");
     pFile_steps = fopen("Numsteps.txt", "w");
+    pFile_fail = fopen("Fail.txt", "w");
 
     while(x_0 < pi2 + .1) {
         x = x_0;
@@ -51,6 +52,7 @@ int main () {
 
         if(i == Numstep) {
 //            printf("Newton's method failed to converge for x_0 = %lg.\n", x_0);
+            fprintf(pFile_fail, "%lg\n", x_0);
         }
 
         x_0 += INCR;
@@ -58,6 +60,6 @@ int main () {
 
     fclose(pFile_x);
     fclose(pFile_steps);
-
+    fclose(pFile_fail);
     return 0;
 }
